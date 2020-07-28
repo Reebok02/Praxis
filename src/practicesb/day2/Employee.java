@@ -1,5 +1,7 @@
 package practicesb.day2;
 
+import org.w3c.dom.ls.LSOutput;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -34,9 +36,11 @@ class MainTask1 {
         System.out.println("Введите название должности");
         String position = input.readLine();
         boolean isFound = false;
+        showHeader();
         for (Employee employee : employees) {
             if (position.equals(employee.getPosition())) {
-                System.out.print(employee.getSurname() + " " + employee.getName() + "\t");
+                showEmployees(employee);
+                System.out.println();
                 isFound = true;
             }
         }
@@ -51,9 +55,9 @@ class MainTask1 {
         if (employees.size() == 0) {
             System.out.println("Список сотрудников пуст");
         } else {
-            System.out.println("Фамилия" + "\t\t\t" + "Имя" + "\t\t\t" + "Должность" + "\t\t\t" + "Зарплата");
+            showHeader();
             for (int i = 0; i < employees.size(); i++) {
-                System.out.printf("%25s", employees.get(i).getSurname() + "\t\t\t" + employees.get(i).getName() + "\t\t\t" + employees.get(i).getPosition() + "\t\t\t" + employees.get(i).getSalary());
+                showEmployees(employees.get(i));
                 System.out.println();
             }
         }
@@ -65,6 +69,21 @@ class MainTask1 {
         comparator = comparator.thenComparing(Employee::getSalary);
         employees.sort(comparator);
         System.out.println("Список отсортирован!");
+    }
+    private void showHeader(){
+        System.out.printf("%15s","Фамилия");
+        System.out.printf("%15s","Имя");
+        System.out.printf("%15s","Должность");
+        System.out.printf("%15s","Зарплата");
+        System.out.println();
+    }
+
+    private void showEmployees(Employee employee) {
+        System.out.printf("%15s", employee.getSurname());
+        System.out.printf("%15s", employee.getName());
+        System.out.printf("%15s", employee.getPosition());
+        System.out.printf("%15s", employee.getSalary());
+
     }
 
 
@@ -132,5 +151,6 @@ class MainTask1 {
     public static void main(String[] args) throws IOException {
         MainTask1 mainTask1 = new MainTask1();
         mainTask1.showMenuChoise();
+
     }
 }
