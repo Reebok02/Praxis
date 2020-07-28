@@ -44,30 +44,28 @@ public class Vector {
     //скалярное произведение векторов
     protected int scalar(Vector vector){
         int result = this.getX()*vector.getX() + this.getY()*vector.getY() + this.getZ()*vector.getZ();
-        System.out.print("Скалярное произведение вектора равно: ");
         return result;
     }
 
     //длина вектора
     protected double lenght(){
         double result = Math.sqrt(Math.pow(this.getX(), 2) + Math.pow(this.getY(), 2) + Math.pow(this.getZ(), 2));
-        System.out.print("Длина вектора равна: ");
         return result;
     }
 
     @Override
     public String toString() {
-        return "вектор имеет координаты: " + "{" + this.getX() + "; " + this.getY() + "; " + this.getZ() + "}";
+        return "{" + this.getX() + "; " + this.getY() + "; " + this.getZ() + "}";
     }
 
     public static void main(String[] args) {
         Vector vector = new Vector(1,2,3);
         Vector vector1 = new Vector(3,2,1);
-        System.out.println("После разности " + vector.difference(vector1));
-        System.out.println("После суммы " + vector.sum(vector1));
-        System.out.println(vector.scalar(vector1));
-        System.out.println(vector.lenght());
-        System.out.println(vector1.lenght());
+        System.out.println("После разности вектор имеет координаты: "+ vector.difference(vector1));
+        System.out.println("После суммы вектор имеет координаты: "+ vector.sum(vector1));
+        System.out.println("Скалярное произведение вектора равно: " + vector.scalar(vector1));
+        System.out.println("Длина вектора равна: " + vector.lenght());
+        System.out.println("Длина вектора равна: " + vector1.lenght());
 
     }
 }
