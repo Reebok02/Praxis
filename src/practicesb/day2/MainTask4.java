@@ -1,16 +1,25 @@
 package practicesb.day2;
 
-
+import java.util.ArrayList;
 import java.util.Objects;
-import java.util.Random;
 import java.util.Scanner;
+
 
 public class MainTask4 {
     public static void main(String[] args) {
-        Circle circle = new Circle(0, 0, 10);
-        circle.print();
-        circle.move();
-        circle.print();
+        Point point1 = new Point(3, 4);
+        Point point2 = new Point(5, 11);
+        Point point3 = new Point(12, 8);
+        Point point4 = new Point(9, 5);
+        Point point5 = new Point(5, 6);
+        Triangle triangle = new Triangle(point1, point2, point3);
+
+        Polygon polygon = new Polygon(point1, point2, point3, point4, point5);
+        polygon.print();
+        System.out.println("Центр тяжести многоугольника: " + polygon.getCenterOfGravity().getX() + " " + polygon.getCenterOfGravity().getY());
+
+        polygon.print();
+        System.out.println(polygon.square());
 
     }
 }
@@ -71,12 +80,13 @@ class Circle extends Figure {
         System.out.println("Это круг с радиусом " + this.getRadius() + " и координатами (" + this.getX() + ";" + this.getY() + ") в центре");
     }
 
+    //перемещает круг в случайную точку
     @Override
     void move() {
-        Circle circle = new Circle();
-        this.x = circle.getX();
-        this.y = circle.getY();
-
+        double x1 = getRandomNumber(-99, 100);
+        double y1 = getRandomNumber(-99, 100);
+        this.x = x1;
+        this.y = y1;
     }
 
     @Override
@@ -112,20 +122,12 @@ class Circle extends Figure {
         return 2 * PI * this.radius;
     }
 
-    //перемещает круг в случайную точку
-    void moveInDot() {
-        Random random = new Random();
-        double x1 = getRandomNumber(-99, 100);
-        double y1 = getRandomNumber(-99, 100);
-        this.x = x1;
-        this.y = y1;
-    }
-
     //расстояние между двумя точками
     double distanceBetweenTwoDots(Circle circle) {
         double result = Math.abs(Math.sqrt(Math.pow(circle.getX() - this.x, 2) + Math.pow(circle.getY() - this.y, 2)));
         return result;
     }
+
 
     //касаются ли окружности в одной точке
     boolean isTouchWithDifferentCircle(Circle circle) {
@@ -201,8 +203,13 @@ class Point {
         }
     }
 
+    double getDistanceBetweenTwoPoints(Point point) {
+        double result = Math.abs(Math.sqrt(Math.pow(point.getX() - this.getX(), 2) + Math.pow(point.getY() - this.getY(), 2)));
+        return result;
+    }
+
     boolean isCollinear(Point point1, Point point2) {
-        return ((point2.x - this.x) / (point1.x - this.x) == (point2.y - this.y) / (point1.y - this.y));
+        return (0.5 * ((point1.getY() * this.x) + (point1.getX() * point2.getY()) + (point2.getX() * this.y) - ((point1.getX() * this.y) + (point2.getX() * point1.getY()) + (this.x * point2.getY()))) == 0);
     }
 
     @Override
@@ -232,22 +239,46 @@ class Triangle extends Figure {
         this.point3 = point3;
     }
 
-    public Triangle(){
-        point1 = new Point();
-        point2 = new Point();
-        point3 = new Point();
+    public Triangle() {
+        while (true) {
+            point1 = new Point();
+            point2 = new Point();
+            point3 = new Point();
+            if (point1.isCollinear(point2, point3)) {
+                System.out.println("Данный точки лежат на одной прямой, повторите ввод!");
+            } else {
+                break;
+            }
+        }
     }
 
     @Override
     void print() {
-        System.out.println("Это треугольник с координатами (" + this.point1.getX() + ";" +this.point1.getY() +"), " + "(" + this.point2.getX() + ";" +this.point2.getY() +"), " + "(" + this.point3.getX() + ";" +this.point3.getY() +")");
+        System.out.println("Это треугольник с координатами (" + this.point1.getX() + ";" + this.point1.getY() + "), " + "(" + this.point2.getX() + ";" + this.point2.getY() + "), " + "(" + this.point3.getX() + ";" + this.point3.getY() + ")");
     }
 
+    //перемещение в случайную точку
     @Override
     void move() {
-        this.point1 = new Point();
-        this.point2 = new Point();
-        this.point3 = new Point();
+        Point center = this.getCenterOfGravity();
+        double x1 = getRandomNumber(-99, 100);
+        double y1 = getRandomNumber(-99, 100);
+        Point centerBefore = new Point(x1, y1);
+
+        double div1x = this.point1.getX() - center.getX();
+        double div1y = this.point1.getY() - center.getY();
+        double div2x = this.point2.getX() - center.getX();
+        double div2y = this.point2.getY() - center.getY();
+        double div3x = this.point3.getX() - center.getX();
+        double div3y = this.point3.getY() - center.getY();
+
+        this.point1.setX(centerBefore.getX() + div1x);
+        this.point1.setY(centerBefore.getY() + div1y);
+        this.point2.setX(centerBefore.getX() + div2x);
+        this.point2.setY(centerBefore.getY() + div2y);
+        this.point3.setX(centerBefore.getX() + div3x);
+        this.point3.setY(centerBefore.getY() + div3y);
+
     }
 
     @Override
@@ -271,10 +302,133 @@ class Triangle extends Figure {
 
     }
 
-    double perimetr(){
+    double perimetr() {
         double ab = Math.sqrt(Math.pow((point2.getX() - point1.getX()), 2) + Math.pow((point2.getY() - point1.getY()), 2));
         double bc = Math.sqrt(Math.pow((point3.getX() - point2.getX()), 2) + Math.pow((point3.getY() - point2.getY()), 2));
         double ca = Math.sqrt(Math.pow((point3.getX() - point1.getX()), 2) + Math.pow((point3.getY() - point1.getY()), 2));
         return ab + bc + ca;
     }
+
+    Point getCenterOfGravity() {
+        double x0 = ((this.point1.getX() + this.point2.getX() + this.point3.getX()) / 3);
+        double y0 = ((this.point1.getY() + this.point2.getY() + this.point3.getY()) / 3);
+        return new Point(x0, y0);
+    }
+
+    Triangle rotate(double degree) {
+        double radian = degree * (Math.PI / 180);
+        Point center = this.getCenterOfGravity();
+
+        this.point1.setX(this.point1.getX() - center.getX());
+        this.point1.setY(this.point1.getY() - center.getY());
+        this.point2.setX(this.point2.getX() - center.getX());
+        this.point2.setY(this.point2.getY() - center.getY());
+        this.point3.setX(this.point3.getX() - center.getX());
+        this.point3.setY(this.point3.getY() - center.getY());
+
+
+       /* double A = this.point1.getDistanceBetweenTwoPoints(center);
+        double B = this.point2.getDistanceBetweenTwoPoints(center);
+        double C = this.point3.getDistanceBetweenTwoPoints(center);*/
+
+        this.point1.setX(this.point1.getX() * Math.cos(radian) - this.point1.getY() * Math.sin(radian));
+        this.point1.setY((this.point1.getX() * Math.sin(radian) + this.point1.getY() * Math.cos(radian)));
+
+        this.point2.setX(this.point2.getX() * Math.cos(radian) - this.point2.getY() * Math.sin(radian));
+        this.point2.setY((this.point2.getX() * Math.sin(radian) + this.point2.getY() * Math.cos(radian)));
+
+        this.point3.setX(this.point3.getX() * Math.cos(radian) - this.point3.getY() * Math.sin(radian));
+        this.point3.setY((this.point3.getX() * Math.sin(radian) + this.point3.getY() * Math.cos(radian)));
+
+
+        this.point1.setX(this.point1.getX() + center.getX());
+        this.point1.setY(this.point1.getY() + center.getY());
+        this.point2.setX(this.point2.getX() + center.getX());
+        this.point2.setY(this.point2.getY() + center.getY());
+        this.point3.setX(this.point3.getX() + center.getX());
+        this.point3.setY(this.point3.getY() + center.getY());
+
+
+        return this;
+    }
+
+
+}
+
+class Polygon extends Figure {
+    private ArrayList<Point> countOfPoints = new ArrayList<>();
+
+    public Polygon(Point... points) {
+        for (Point point : points) {
+            this.countOfPoints.add(point);
+        }
+    }
+
+    public Polygon() {
+        System.out.println("Введите кол-во сторон многоугольника");
+        Scanner input = new Scanner(System.in);
+        int count = input.nextInt();
+        for (int i = 0; i < count; i++) {
+            Point point = new Point();
+            this.countOfPoints.add(point);
+        }
+        System.out.println("Многоугольник создан!");
+    }
+
+    @Override
+    void print() {
+        System.out.println("Это многоугольник с " + countOfPoints.size() + " cторонами");
+    }
+
+    @Override
+    void move() {
+        Point center = this.getCenterOfGravity();
+        double x1 = getRandomNumber(-99, 100);
+        double y1 = getRandomNumber(-99, 100);
+        Point centerBefore = new Point(x1, y1);
+
+        for (Point point : this.countOfPoints) {
+            double divX = point.getX() - center.getX();
+            double divY = point.getY() - center.getY();
+            point.setX(centerBefore.getX() + divX);
+            point.setY(centerBefore.getY() + divY);
+        }
+
+    }
+
+    @Override
+    void scale(double ratio) {
+        for (Point point : this.countOfPoints) {
+            point.setX(point.getX() * ratio);
+            point.setY(point.getY() * ratio);
+        }
+    }
+
+    @Override
+    double square() {
+        double sum1 = 0;
+        for (int i = 0; i < countOfPoints.size() - 1; i++) {
+            sum1 = sum1 + countOfPoints.get(i).getX() * countOfPoints.get(i + 1).getY();
+        }
+        sum1 += countOfPoints.get(countOfPoints.size() - 1).getX() * countOfPoints.get(0).getY();
+        double sum2 = 0;
+        for (int i = 0; i < countOfPoints.size() - 1; i++) {
+            sum2 = sum2 - countOfPoints.get(i).getY() * countOfPoints.get(i + 1).getX();
+        }
+        sum2 -= countOfPoints.get(countOfPoints.size() - 1).getY() * countOfPoints.get(0).getX();
+        return Math.abs(0.5 * (sum1 - sum2));
+    }
+
+    Point getCenterOfGravity() {
+        double sumX = 0;
+        double sumY = 0;
+        for (int i = 0; i < countOfPoints.size(); i++) {
+            sumX = sumX + countOfPoints.get(i).getX();
+            sumY = sumY + countOfPoints.get(i).getY();
+        }
+        double x0 = sumX / countOfPoints.size();
+        double y0 = sumY / countOfPoints.size();
+        return new Point(x0, y0);
+    }
+
 }
