@@ -44,8 +44,8 @@ public class Circle extends Figure {
     //перемещает круг в случайную точку
     @Override
     public void move() {
-        double x1 = ThreadLocalRandom.current().nextDouble(-99,100);
-        double y1 = ThreadLocalRandom.current().nextDouble(-99,100);
+        double x1 = ThreadLocalRandom.current().nextDouble(-99, 100);
+        double y1 = ThreadLocalRandom.current().nextDouble(-99, 100);
         this.x = x1;
         this.y = y1;
     }
@@ -62,19 +62,14 @@ public class Circle extends Figure {
 
     //проверка что точка находится в кругу
     public boolean isContainPoint(double x, double y) {
-        if ((Math.pow(x - this.x, 2) + Math.pow(y - this.y, 2)) <= Math.pow(this.radius, 2)){
-            return true;
-        } else {
-            return false;
-        }
+        return ((Math.pow(x - this.x, 2) + Math.pow(y - this.y, 2)) <= Math.pow(this.radius, 2));
+
     }
 
     //проверка что другой круг находится в кругу
     public boolean isCircle(Circle circle) {
         if (this.isContainPoint(circle.getX(), circle.getY())) {
-            if (this.distanceBetweenTwoDots(circle) < (this.getRadius() - circle.radius)){
-                return true;
-            }
+            return  this.distanceBetweenTwoDots(circle) < (this.getRadius() - circle.radius);
         }
         return false;
     }
@@ -86,17 +81,11 @@ public class Circle extends Figure {
 
     //расстояние между двумя точками
     public double distanceBetweenTwoDots(Circle circle) {
-        double result = Math.abs(Math.sqrt(Math.pow(circle.getX() - this.x, 2) + Math.pow(circle.getY() - this.y, 2)));
-        return result;
+        return Math.abs(Math.sqrt(Math.pow(circle.getX() - this.x, 2) + Math.pow(circle.getY() - this.y, 2)));
     }
 
-
     //касаются ли окружности в одной точке
-   public  boolean isTouchWithDifferentCircle(Circle circle) {
-        if ((Math.ceil(this.distanceBetweenTwoDots(circle)) == this.radius + circle.getRadius()) || (Math.ceil(this.distanceBetweenTwoDots(circle)) == Math.abs(this.radius - circle.getRadius()))) {
-            return true;
-        } else {
-            return false;
-        }
+    public boolean isTouchWithDifferentCircle(Circle circle) {
+        return ((Math.ceil(this.distanceBetweenTwoDots(circle)) == this.radius + circle.getRadius()) || (Math.ceil(this.distanceBetweenTwoDots(circle)) == Math.abs(this.radius - circle.getRadius())));
     }
 }

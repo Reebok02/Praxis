@@ -6,5 +6,6 @@ public class MainTask4 {
         Circle circle = new Circle(0, 0, 3);
         Circle circle1 = new Circle(0,1.5,1.4);
         System.out.println(circle.isCircle(circle1));
+        circle.distanceBetweenTwoDots(circle1);
     }
 }

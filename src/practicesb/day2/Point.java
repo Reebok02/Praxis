@@ -60,16 +60,11 @@ public class Point {
 
     //определение симметрии точек
     public boolean isSymmetrical(Point point) {
-        if (Math.abs(this.x) == Math.abs(point.x) && (Math.abs(this.y) == Math.abs(point.y))) {
-            return true;
-        } else {
-            return false;
-        }
+        return (Math.abs(this.x) == Math.abs(point.x) && (Math.abs(this.y) == Math.abs(point.y)));
     }
 
     public double getDistanceBetweenTwoPoints(Point point) {
-        double result = Math.abs(Math.sqrt(Math.pow(point.getX() - this.getX(), 2) + Math.pow(point.getY() - this.getY(), 2)));
-        return result;
+        return Math.abs(Math.sqrt(Math.pow(point.getX() - this.getX(), 2) + Math.pow(point.getY() - this.getY(), 2)));
     }
 
     public boolean isCollinear(Point point1, Point point2) {
@@ -79,11 +74,7 @@ public class Point {
     @Override
     public boolean equals(Object obj) {
         Point point = (Point) obj;
-        if ((this.x == point.getX()) && (this.y == point.getY())) {
-            return true;
-        } else {
-            return false;
-        }
+        return (this.x == point.getX()) && (this.y == point.getY());
     }
 
     @Override
