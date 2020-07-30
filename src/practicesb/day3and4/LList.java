@@ -31,6 +31,14 @@ public class LList {
         return false;
     }
 
+    public boolean isEmpty(){
+        if (this.size() == 0){
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     public int size(){
         if (root == null){
             return 0;
@@ -84,7 +92,6 @@ public class LList {
 }
 class MainTaskLList {
     public static void main(String[] args) {
-        List list1 = new LinkedList();
         LList list = new LList();
         list.add("String 1");
         list.add("String 2");
@@ -99,6 +106,7 @@ class MainTaskLList {
         System.out.println(list.contains(123));
         System.out.println(list.contains("String 5"));
         System.out.println(list.size());
+        System.out.println(list.isEmpty());
     }
 }
 
