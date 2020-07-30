@@ -1,4 +1,4 @@
-package practicesb.day3;
+package practicesb.day3and4;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -47,7 +47,7 @@ public class LList {
 
     public Object get (int index){
         if (index < 0 || index + 1 > size()) {
-            return null;
+            throw new IndexException("Неправильно указан индекс");
         } else {
             Node currentNode = root;
             int i = 0;
@@ -79,6 +79,8 @@ public class LList {
             this.data = item;
         }
     }
+
+
 }
 class MainTaskLList {
     public static void main(String[] args) {
@@ -91,7 +93,6 @@ class MainTaskLList {
         list.add("String 5");
         list.add("String 6");
         list.add("String 7");
-        System.out.println(list.get(100));
         System.out.println(list.get(2));
         System.out.println(list.size());
         System.out.println(list.contains(null));
