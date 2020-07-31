@@ -1,16 +1,13 @@
-package practicesb.day3and4;
+package practicesb.day3and4and5;
 
-import java.util.LinkedList;
-import java.util.List;
-
-public class LList {
+public class LList<E> {
     private Node root;
 
-    public void add(Object obj) {
-        if (obj == null) {
+    public void add(E element) {
+        if (element == null) {
             return;
         }
-        Node node = new Node(obj);
+        Node node = new Node(element);
         Node last = getLast();
         if (last == null) {
             root = node;
@@ -18,12 +15,12 @@ public class LList {
             last.next = node;
         }
     }
-    public boolean contains(Object obj){
-        if (obj == null || this.size() ==0){
+    public boolean contains(E element){
+        if (element == null || this.size() ==0){
             return false;
         } else {
             for (int i = 0; i < this.size(); i++){
-                if (obj.equals(this.get(i))){
+                if (element.equals(this.get(i))){
                     return true;
                 }
             }
@@ -79,34 +76,15 @@ public class LList {
         return currentNode;
     }
 
-    private class Node {
-        Object data;
-        Node next;
+    private class Node<E> {
+        private Object data;
+        private Node next;
 
-        public Node(Object item) {
-            this.data = item;
+        public Node(E elem) {
+            this.data = elem;
         }
     }
 
 
-}
-class MainTaskLList {
-    public static void main(String[] args) {
-        LList list = new LList();
-        list.add("String 1");
-        list.add("String 2");
-        list.add(123);
-        list.add("String 4");
-        list.add("String 5");
-        list.add("String 6");
-        list.add("String 7");
-        System.out.println(list.get(2));
-        System.out.println(list.size());
-        System.out.println(list.contains(null));
-        System.out.println(list.contains(123));
-        System.out.println(list.contains("String 5"));
-        System.out.println(list.size());
-        System.out.println(list.isEmpty());
-    }
 }
 
