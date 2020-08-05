@@ -1,9 +1,6 @@
-package practicesb.day6;
+package practicesb.day6and7;
 
-import javax.xml.crypto.dom.DOMCryptoContext;
-import java.lang.reflect.Method;
 import java.util.*;
-import java.util.concurrent.ThreadLocalRandom;
 
 public class Example {
     private ArrayList<Double> list = new ArrayList<>();
